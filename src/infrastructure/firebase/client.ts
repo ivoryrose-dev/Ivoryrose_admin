@@ -14,6 +14,24 @@ const firebaseConfig = {
 
 let app: FirebaseApp | null = null;
 
+function validateFirebaseConfig() {
+  const missingKeys = Object.entries(firebaseConfig)
+    .filter(([, value]) => !value || String(value).trim().length === 0)
+    .map(([key]) => key);
+
+  if (missingKeys.length > 0) {
+    throw new Error(
+      `Firebase client config is missing: ${missingKeys.join(", ")}. Check NEXT_PUBLIC_FIREBASE_* environment variables and rebuild the app.`
+    );
+  }
+
+  if (!String(firebaseConfig.apiKey).startsWith("AIza")) {
+    throw new Error(
+      "Firebase client config has an invalid apiKey format. Check NEXT_PUBLIC_FIREBASE_API_KEY and rebuild the app."
+    );
+  }
+}
+
 function getFirebaseApp(): FirebaseApp {
   if (typeof window === "undefined") {
     throw new Error("Firebase client is only available in the browser");
@@ -22,6 +40,7 @@ function getFirebaseApp(): FirebaseApp {
     if (getApps().length > 0) {
       app = getApps()[0] as FirebaseApp;
     } else {
+      validateFirebaseConfig();
       app = initializeApp(firebaseConfig);
     }
   }

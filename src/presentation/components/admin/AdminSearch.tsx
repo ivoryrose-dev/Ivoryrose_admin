@@ -1,6 +1,7 @@
 "use client";
 
 import type { InputHTMLAttributes } from "react";
+import { AdminIcon } from "./AdminIcons";
 
 type AdminSearchProps = InputHTMLAttributes<HTMLInputElement> & {
   label?: string;
@@ -20,19 +21,7 @@ export function AdminSearch({ label, className = "", ...props }: AdminSearchProp
       )}
       <div className="relative">
         <span className="pointer-events-none absolute inset-y-0 left-3 flex items-center text-zinc-400">
-          <svg
-            className="h-4 w-4"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={2}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden
-          >
-            <circle cx="11" cy="11" r="7" />
-            <line x1="16.65" y1="16.65" x2="21" y2="21" />
-          </svg>
+          <AdminIcon name="search" className="h-4 w-4" />
         </span>
         <input
           {...props}

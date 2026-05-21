@@ -12,15 +12,15 @@ type AdminBadgeProps = {
 
 const variantClasses: Record<AdminBadgeVariant, string> = {
   default:
-    "bg-slate-800/80 text-slate-200 border-slate-600",
+    "border-zinc-200 bg-zinc-100 text-zinc-700",
   success:
-    "bg-emerald-900/70 text-emerald-200 border-emerald-700",
+    "border-emerald-200 bg-emerald-50 text-emerald-700",
   warning:
-    "bg-amber-900/70 text-amber-200 border-amber-700",
+    "border-amber-200 bg-amber-50 text-amber-800",
   danger:
-    "bg-red-900/70 text-red-200 border-red-700",
+    "border-red-200 bg-red-50 text-red-700",
   info:
-    "bg-sky-900/70 text-sky-200 border-sky-700",
+    "border-sky-200 bg-sky-50 text-sky-700",
 };
 
 /**
@@ -46,4 +46,3 @@ export function AdminBadge({
     </span>
   );
 }
-

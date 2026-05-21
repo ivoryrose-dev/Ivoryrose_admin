@@ -43,8 +43,8 @@ export function encryptRsRate(value: number | null): string | null {
 export function decryptRsRate(encrypted: unknown): number | null {
   if (encrypted === null || encrypted === undefined || encrypted === "")
     return null;
-  // Defensive parity with the quotation module: legacy rows may store Rs_Rate
-  // as a plain number rather than an encrypted base64 string.
+  // Legacy rows may store Rs_Rate as a plain number rather than an encrypted
+  // base64 string.
   if (typeof encrypted === "number") {
     return Number.isFinite(encrypted) ? encrypted : null;
   }

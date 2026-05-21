@@ -27,6 +27,20 @@ npm run lint
 npm run build
 ```
 
+## Environment variables
+
+Required values are loaded from `.env.local` (gitignored). Notable variables:
+
+- `NEXT_PUBLIC_FIREBASE_*` – Firebase client SDK config used for browser-side auth.
+- `FIREBASE_SERVICE_ACCOUNT_JSON` / `FIREBASE_SERVICE_ACCOUNT_PATH` – Admin SDK credentials for server-side Firestore / Storage access.
+- `GOOGLE_SERVICE_ACCOUNT_JSON` / `GOOGLE_SERVICE_ACCOUNT_PATH` – Google service account for Drive / Sheets access (product import, tag sync, quotation upload).
+- `RATE_ENCRYPTION_KEY` – AES-256 key used to decrypt the `Rate` collection's `Rs_Rate` values.
+- `DRIVE_FOLDER_ID` – Default Drive folder ID used by tag sync and bulk product import.
+- `QUOTE_GENERATOR_URL` – HTTPS endpoint of the `generateQuoteInternal` Cloud Function in `IvoryRoseApp-functions`. Defaults to `https://us-central1-ivory-rose.cloudfunctions.net/generateQuoteInternal`.
+- `QUOTE_INTERNAL_SECRET` – Shared secret used by the local-folder importer to authenticate against `generateQuoteInternal`. Must match the value set via `firebase functions:secrets:set QUOTE_INTERNAL_SECRET` in the functions project.
+
+After a successful local-folder product import (`/admin/import`), the importer calls `generateQuoteInternal` for every product whose status is `CREATE` or `UPDATE`, then uploads the resulting `.xlsx` to `{productId}/Quotations/{productId}_quote.xlsx` inside the destination Shared Drive folder. Quotation generation failures are reported in the import summary as warnings and do not abort the import.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

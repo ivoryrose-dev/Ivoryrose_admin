@@ -5,11 +5,13 @@ import type { ReactNode } from "react";
 type CardProps = {
   children: ReactNode;
   className?: string;
+  id?: string;
 };
 
-export function Card({ children, className = "" }: CardProps) {
+export function Card({ children, className = "", id }: CardProps) {
   return (
     <div
+      id={id}
       className={
         "overflow-hidden rounded-lg border border-zinc-200 bg-white shadow-sm shadow-zinc-200/50 " +
         className

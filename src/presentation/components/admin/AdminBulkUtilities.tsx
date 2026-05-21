@@ -12,13 +12,13 @@ import { ConfirmDialog } from "@/presentation/components/ui/ConfirmDialog";
 import { Card, CardHeader, CardContent } from "@/presentation/components/ui/Card";
 import { Button } from "@/presentation/components/ui/Button";
 import { parseDriveFolderId } from "@/shared/utils/drive";
+import { AdminIcon } from "@/presentation/components/admin/AdminIcons";
 
 const RATE_SPREADSHEET_URL =
   "https://docs.google.com/spreadsheets/d/1kcrnR223X3kKcLkiwHRjQ7KP9pQs19axdAWfbXPBVLI/edit?usp=drive_link";
 
 const ALL_PRODUCTS_FOLDER_URL =
   "https://drive.google.com/drive/folders/1J3PtI1ijQJrp_W2xhp8rakL7oeXh3cC7";
-
 function getDriveFolderStatus(value: string): {
   folderId: string | null;
   isInvalid: boolean;
@@ -27,38 +27,6 @@ function getDriveFolderStatus(value: string): {
   if (!trimmed) return { folderId: null, isInvalid: false };
   const folderId = parseDriveFolderId(trimmed);
   return { folderId, isInvalid: folderId === null };
-}
-
-function IconUpdate() {
-  return (
-    <svg className="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-    </svg>
-  );
-}
-
-function IconSync() {
-  return (
-    <svg className="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-    </svg>
-  );
-}
-
-function IconSave() {
-  return (
-    <svg className="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
-    </svg>
-  );
-}
-
-function IconExternal() {
-  return (
-    <svg className="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-    </svg>
-  );
 }
 
 export function AdminBulkUtilities() {
@@ -91,7 +59,6 @@ export function AdminBulkUtilities() {
     () => getDriveFolderStatus(productImportDriveLink),
     [productImportDriveLink]
   );
-
   function handleTagUpdateClick() {
     const trimmed = driveLink.trim();
     setTagValidationError(null);
@@ -165,7 +132,7 @@ export function AdminBulkUtilities() {
           const nDrive = out.result.driveSyncErrors?.length ?? 0;
           showSuccess(
             nDrive > 0
-              ? `Import complete. Created: ${out.result.created}, Updated: ${out.result.updated}. Drive write issues: ${nDrive} product(s)—see summary below.`
+              ? `Import complete. Created: ${out.result.created}, Updated: ${out.result.updated}. Drive write issues: ${nDrive} product(s) - see summary below.`
               : `Import complete. Created: ${out.result.created}, Updated: ${out.result.updated}.`
           );
         } else showError(out.error);
@@ -261,7 +228,7 @@ export function AdminBulkUtilities() {
                 disabled={loading}
                 className="inline-flex items-center gap-2"
               >
-                <IconUpdate />
+                <AdminIcon name="refresh" className="h-4 w-4 shrink-0" />
                 {loading ? "Updating..." : "Update"}
               </Button>
               <Button
@@ -270,7 +237,7 @@ export function AdminBulkUtilities() {
                 disabled={loading}
                 className="inline-flex items-center gap-2"
               >
-                <IconSync />
+                <AdminIcon name="refresh" className="h-4 w-4 shrink-0" />
                 {loading ? "Syncing..." : "Sync"}
               </Button>
             </div>
@@ -327,7 +294,7 @@ export function AdminBulkUtilities() {
               disabled={goldRateSaving || goldRateLoading}
               className="inline-flex items-center gap-2"
             >
-              <IconSave />
+              <AdminIcon name="save" className="h-4 w-4 shrink-0" />
               {goldRateSaving ? "Saving..." : "Save rate"}
             </Button>
             {goldRateError && (
@@ -356,7 +323,7 @@ export function AdminBulkUtilities() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-md border border-zinc-300 bg-white px-4 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-50"
             >
-              <IconExternal />
+              <AdminIcon name="external" className="h-4 w-4 shrink-0" />
               Open Rate spreadsheet
             </a>
             <p className="text-sm text-zinc-600">
@@ -383,7 +350,7 @@ export function AdminBulkUtilities() {
               disabled={rateLoading}
               className="inline-flex items-center gap-2"
             >
-              <IconUpdate />
+              <AdminIcon name="refresh" className="h-4 w-4 shrink-0" />
               {rateLoading ? "Updating rates..." : "Update rates"}
             </Button>
             {(rateError || rateValidationError) && (
@@ -418,7 +385,7 @@ export function AdminBulkUtilities() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 text-sm font-medium text-zinc-600 underline"
             >
-              <IconExternal />
+              <AdminIcon name="external" className="h-4 w-4 shrink-0" />
               Default folder (All Products)
             </a>
             <div>
@@ -474,7 +441,7 @@ export function AdminBulkUtilities() {
               disabled={productImportLoading || productImportFolderStatus.isInvalid}
               className="inline-flex items-center gap-2"
             >
-              <IconUpdate />
+              <AdminIcon name="refresh" className="h-4 w-4 shrink-0" />
               {productImportLoading ? "Running import..." : "Run import"}
             </Button>
             {(productImportError || productImportValidationError) && (

@@ -38,6 +38,23 @@ export type ProductImportResult = {
   errors: { productId: string; error: string }[];
   /** Failures writing Excel/images back to Drive (Firestore import still succeeded). */
   driveSyncErrors: { productId: string; error: string }[];
+  tagOverridesApplied?: number;
+  /** Number of products for which a quotation was generated and uploaded to Drive. */
+  quotesGenerated?: number;
+  /** Per-product quotation generation/upload failures (import still succeeded). */
+  quoteErrors?: { productId: string; error: string }[];
+};
+
+export type LocalImportPreview = {
+  folderPath: string;
+  driveDestinationFolderId: string | null;
+  totalFiles: number;
+  htmlFiles: number;
+  zipFiles: number;
+  folders: number;
+  estimatedProducts: number;
+  warnings: string[];
+  sampleHtmlFiles: string[];
 };
 
 export type ImportProductResult = "CREATE" | "UPDATE" | "SKIP" | "ERRORED";

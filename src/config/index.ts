@@ -25,6 +25,11 @@ export const RATE_ENCRYPTION_KEY = process.env.RATE_ENCRYPTION_KEY;
 export const DEFAULT_PRODUCTS_DRIVE_FOLDER_ID =
   process.env.DRIVE_FOLDER_ID || "1J3PtI1ijQJrp_W2xhp8rakL7oeXh3cC7";
 
+export const QUOTE_GENERATOR_URL =
+  process.env.QUOTE_GENERATOR_URL ||
+  "https://us-central1-ivory-rose.cloudfunctions.net/generateQuoteInternal";
+export const QUOTE_INTERNAL_SECRET = process.env.QUOTE_INTERNAL_SECRET || "";
+
 export function getFirebaseCredential(): admin.ServiceAccount {
   if (FIREBASE_SERVICE_ACCOUNT_JSON) {
     return JSON.parse(FIREBASE_SERVICE_ACCOUNT_JSON) as admin.ServiceAccount;

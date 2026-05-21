@@ -30,6 +30,37 @@ export function parseSpreadsheetId(input: string): string | null {
   return m ? m[1] : null;
 }
 
+/** Parse Google Docs document ID from a docs URL or return a plain ID. */
+export function parseGoogleDocId(input: string): string | null {
+  const trimmed = (input || "").trim().replace(/^<|>$/g, "");
+  if (!trimmed) return null;
+
+  const docMatch = trimmed.match(
+    /docs\.google\.com\/document\/d\/([a-zA-Z0-9_-]+)/
+  );
+  if (docMatch) return docMatch[1];
+
+  if (/^[a-zA-Z0-9_-]+$/.test(trimmed)) return trimmed;
+  return null;
+}
+
+/** Parse Google Drive file ID from a file URL, open?id URL, or return plain ID. */
+export function parseDriveFileId(input: string): string | null {
+  const trimmed = (input || "").trim().replace(/^<|>$/g, "");
+  if (!trimmed) return null;
+
+  const fileMatch = trimmed.match(
+    /drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/
+  );
+  if (fileMatch) return fileMatch[1];
+
+  const openMatch = trimmed.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+  if (openMatch) return openMatch[1];
+
+  if (/^[a-zA-Z0-9_-]+$/.test(trimmed)) return trimmed;
+  return null;
+}
+
 export function normalizeProductId(productId: string): string {
   if (!productId || typeof productId !== "string") return productId;
   const parts = productId.split("-");

@@ -30,14 +30,14 @@ export function AdminPagination({
   const end = Math.min(page * pageSize, total);
 
   return (
-    <div className="flex flex-col gap-3 border-t border-slate-800 px-4 py-3 text-xs text-slate-400 sm:flex-row sm:items-center sm:justify-between">
+    <div className="flex flex-col gap-3 border-t border-zinc-200 bg-zinc-50/80 px-4 py-3 text-xs text-zinc-500 sm:flex-row sm:items-center sm:justify-between">
       <div className="flex items-center gap-2">
         <span>
           Showing{" "}
-          <span className="font-medium text-slate-200">
+          <span className="font-medium text-zinc-900">
             {start}-{end}
           </span>{" "}
-          of <span className="font-medium text-slate-200">{total}</span>
+          of <span className="font-medium text-zinc-900">{total}</span>
         </span>
       </div>
       <div className="flex items-center gap-3">
@@ -45,7 +45,7 @@ export function AdminPagination({
           <select
             value={pageSize}
             onChange={(e) => onPageSizeChange(Number(e.target.value))}
-            className="h-8 rounded-md border border-slate-700 bg-[#111827] px-2 text-xs text-[#E5E7EB] focus:border-[#D4AF37] focus:outline-none focus:ring-1 focus:ring-[#D4AF37]"
+            className="h-8 rounded-md border border-zinc-300 bg-white px-2 text-xs text-zinc-800 focus:border-[var(--admin-accent)] focus:outline-none focus:ring-1 focus:ring-[var(--admin-accent)]"
           >
             {pageSizeOptions.map((size) => (
               <option key={size} value={size}>
@@ -63,9 +63,9 @@ export function AdminPagination({
           >
             Prev
           </AdminButton>
-          <span className="px-1 text-[11px] text-slate-400">
+          <span className="px-1 text-[11px] text-zinc-500">
             Page{" "}
-            <span className="font-semibold text-slate-200">
+            <span className="font-semibold text-zinc-900">
               {page} / {pageCount}
             </span>
           </span>
@@ -82,4 +82,3 @@ export function AdminPagination({
     </div>
   );
 }
-

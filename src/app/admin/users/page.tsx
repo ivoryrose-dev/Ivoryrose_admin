@@ -13,7 +13,16 @@ import {
 import { getClientFirestore } from "@/infrastructure/firebase/client";
 import { COLLECTION_ADMIN_USERS } from "@/shared/constants/auth";
 import { AdminButton } from "@/presentation/components/admin/AdminButton";
+import { AdminBadge } from "@/presentation/components/admin/AdminBadge";
 import { AdminCard } from "@/presentation/components/admin/AdminCard";
+import {
+  AdminTable,
+  AdminTableBody,
+  AdminTableCell,
+  AdminTableHeaderCell,
+  AdminTableHeaderRow,
+  AdminTableRow,
+} from "@/presentation/components/admin/AdminTable";
 import { useAuth } from "@/presentation/auth/AuthContext";
 
 type UserForm = {
@@ -169,47 +178,44 @@ export default function AdminUsersPage() {
       <AdminCard title="Users" description="Manage dashboard roles, custom permissions, and account access.">
         {loading ? (
           <p className="text-sm text-zinc-500">Loading users...</p>
+        ) : users.length === 0 ? (
+          <p className="px-6 py-8 text-center text-sm text-zinc-500">No admin users have been assigned yet.</p>
         ) : (
-          <div className="overflow-x-auto rounded-lg border border-zinc-200">
-            <table className="w-full text-left text-sm">
-              <thead>
-                <tr className="border-b border-zinc-200 bg-zinc-50">
-                  <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wide text-zinc-600">User</th>
-                  <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wide text-zinc-600">Role</th>
-                  <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wide text-zinc-600">Permissions</th>
-                  <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wide text-zinc-600">Status</th>
-                  <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wide text-zinc-600">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {users.map((profile) => (
-                  <tr key={profile.uid} className="border-b border-zinc-100 last:border-0">
-                    <td className="px-4 py-3">
-                      <p className="font-medium text-zinc-900">{profile.displayName || profile.email || profile.uid}</p>
-                      <p className="mt-0.5 font-mono text-xs text-zinc-500">{profile.uid}</p>
-                    </td>
-                    <td className="px-4 py-3 text-zinc-700">{profile.role}</td>
-                    <td className="max-w-[320px] px-4 py-3 text-xs text-zinc-600">
-                      {profile.role === "Admin" ? "All permissions" : profile.permissions.join(", ") || "No permissions"}
-                    </td>
-                    <td className="px-4 py-3">
-                      <span className={`rounded-full px-2.5 py-1 text-xs font-medium ${profile.disabled ? "bg-red-50 text-red-700" : "bg-emerald-50 text-emerald-700"}`}>
-                        {profile.disabled ? "Disabled" : "Active"}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3">
-                      <AdminButton size="sm" variant="secondary" onClick={() => startEdit(profile)}>
-                        Edit
-                      </AdminButton>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            {users.length === 0 && (
-              <p className="px-6 py-8 text-center text-sm text-zinc-500">No admin users have been assigned yet.</p>
-            )}
-          </div>
+          <AdminTable>
+            <thead>
+              <AdminTableHeaderRow>
+                <AdminTableHeaderCell>User</AdminTableHeaderCell>
+                <AdminTableHeaderCell>Role</AdminTableHeaderCell>
+                <AdminTableHeaderCell>Permissions</AdminTableHeaderCell>
+                <AdminTableHeaderCell>Status</AdminTableHeaderCell>
+                <AdminTableHeaderCell>Actions</AdminTableHeaderCell>
+              </AdminTableHeaderRow>
+            </thead>
+            <AdminTableBody>
+              {users.map((profile) => (
+                <AdminTableRow key={profile.uid}>
+                  <AdminTableCell>
+                    <p className="font-medium text-zinc-900">{profile.displayName || profile.email || profile.uid}</p>
+                    <p className="mt-0.5 font-mono text-xs text-zinc-500">{profile.uid}</p>
+                  </AdminTableCell>
+                  <AdminTableCell className="text-zinc-700">{profile.role}</AdminTableCell>
+                  <AdminTableCell className="max-w-[320px] text-xs text-zinc-600">
+                    {profile.role === "Admin" ? "All permissions" : profile.permissions.join(", ") || "No permissions"}
+                  </AdminTableCell>
+                  <AdminTableCell>
+                    <AdminBadge variant={profile.disabled ? "danger" : "success"}>
+                      {profile.disabled ? "Disabled" : "Active"}
+                    </AdminBadge>
+                  </AdminTableCell>
+                  <AdminTableCell>
+                    <AdminButton size="sm" variant="secondary" onClick={() => startEdit(profile)}>
+                      Edit
+                    </AdminButton>
+                  </AdminTableCell>
+                </AdminTableRow>
+              ))}
+            </AdminTableBody>
+          </AdminTable>
         )}
       </AdminCard>
 

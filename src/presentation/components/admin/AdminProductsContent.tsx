@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { AdminBadge } from "@/presentation/components/admin/AdminBadge";
 import { AdminButton } from "@/presentation/components/admin/AdminButton";
 import { AdminCard } from "@/presentation/components/admin/AdminCard";
+import { AdminIcon } from "@/presentation/components/admin/AdminIcons";
 import { AdminPagination } from "@/presentation/components/admin/AdminPagination";
 import { AdminSearch } from "@/presentation/components/admin/AdminSearch";
 import {
@@ -27,19 +28,10 @@ type AdminProductsContentProps = {
   error?: string | null;
 };
 
-function IconEdit() {
-  return (
-    <svg className="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-    </svg>
-  );
-}
-
 function IconSort({ dir }: { dir: "asc" | "desc" | null }) {
+  const iconName = dir === "asc" ? "sortAsc" : dir === "desc" ? "sortDesc" : "sortNone";
   return (
-    <span className="ml-1 inline-block w-3 text-zinc-500" aria-hidden>
-      {dir === "asc" ? "^" : dir === "desc" ? "v" : "-"}
-    </span>
+    <AdminIcon name={iconName} className="ml-1 inline-flex w-3 justify-center text-[11px] text-zinc-500" />
   );
 }
 
@@ -213,7 +205,7 @@ export function AdminProductsContent({ initialProducts, error }: AdminProductsCo
                         >
                           <Link href={`/admin/products/${encodeURIComponent(product.productId)}`}>
                             <AdminButton variant="secondary" size="sm" className="inline-flex items-center gap-1.5">
-                              <IconEdit />
+                              <AdminIcon name="edit" className="h-4 w-4 shrink-0" />
                               Open
                             </AdminButton>
                           </Link>
